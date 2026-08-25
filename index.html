@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends Apparel - Women's Clothing</title>
+    <link rel="icon" type="image/png" href="https://files.catbox.moe/nqnijd.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen" onclick="handleBodyClick(event)">
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('shop')">
+                    <div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center overflow-hidden border-2 border-pink-500 shadow-md">
+                        <img src="https://files.catbox.moe/nqnijd.png" alt="Friends Apparel Logo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150'">
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-wider text-pink-600 uppercase block leading-none">Friends Apparel</span>
+                        <span class="text-xs text-gray-400 font-medium tracking-wide">Women's Fashion Hub</span>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex space-x-6 font-medium items-center">
+                    <button onclick="switchTab('shop')" class="tab-btn text-pink-600 border-b-2 border-pink-600 pb-1">Shop</button>
+                    <button onclick="switchTab('cart')" class="tab-btn text-gray-500 hover:text-pink-600 pb-1 relative">Cart <span id="cart-count" class="bg-pink-600 text-white rounded-full px-2 py-0.5 text-xs absolute -top-2 -right-4">0</span></button>
+                    <button onclick="switchTab('orders')" class="tab-btn text-gray-500 hover:text-pink-600 pb-1">My Orders</button>
+                    
+                    <div id="auth-nav-section" class="ml-4 flex items-center space-x-2 relative">
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" onclick="toggleMobileMenu()" class="text-gray-600 focus:outline-none"><i class="fa-solid fa-bars text-xl"></i></button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-4 pt-2 pb-4 space-y-2 border-b">
+            <button onclick="switchTab('shop'); toggleMobileMenu();" class="block w-full text-left py-2 text-pink-600 font-medium">Shop</button>
+            <button onclick="switchTab('cart'); toggleMobileMenu();" class="block w-full text-left py-2 text-gray-600 font-medium">Cart</button>
+            <button onclick="switchTab('orders'); toggleMobileMenu();" class="block w-full text-left py-2 text-gray-600 font-medium">My Orders</button>
+            <div id="mobile-auth-section" class="pt-2 border-t">
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <section id="tab-shop" class="tab-content">
+            <div class="text-center mb-6">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Elegance in Every Stitch</h1>
+                <p class="text-gray-500 text-lg">Discover our exclusive collection of women's clothing.</p>
+            </div>
+            
+            <div id="category-pills-container" class="flex flex-wrap justify-center gap-2 mb-8">
+            </div>
+
+            <div class="max-w-xl mx-auto mb-10 flex gap-2">
+                <div class="relative flex-1">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" id="search-input" oninput="handleSearch()" placeholder="Search clothes by name or category..." class="w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-pink-500 shadow-sm bg-white" autocomplete="search">
+                </div>
+            </div>
+
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            </div>
+        </section>
+
+        <section id="tab-product-details" class="tab-content hidden">
+            <button onclick="switchTab('shop')" class="mb-6 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition flex items-center gap-2 w-fit">
+                <i class="fa-solid fa-arrow-left"></i> Back to Shop
+            </button>
+            
+            <div class="bg-white rounded-2xl shadow-md p-6 md:p-10 mb-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div>
+                        <img id="detail-main-img" src="" alt="Product" class="w-full h-[450px] object-cover rounded-2xl shadow-md mb-4 cursor-zoom-in hover:opacity-95 transition" onclick="openImageModal(this.src)" onerror="this.src='https://via.placeholder.com/400'">
+                        <p class="text-xs text-gray-400 text-center mb-2"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Click image to zoom</p>
+                        <div id="detail-thumbnails" class="flex gap-3 overflow-x-auto pb-2"></div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <span id="detail-category" class="text-xs uppercase bg-pink-100 text-pink-600 font-semibold px-3 py-1 rounded-full"></span>
+                            <h2 id="detail-title" class="text-3xl md:text-4xl font-extrabold mt-3 text-gray-900"></h2>
+                            <p id="detail-price" class="text-2xl font-bold text-pink-600 mt-2"></p>
+                            <p id="detail-desc" class="text-gray-600 text-base mt-4 leading-relaxed"></p>
+                            
+                            <div class="mt-4">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Select Size:</label>
+                                <div id="detail-size-options" class="flex gap-2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <button onclick="addDetailItemToCart()" class="w-full bg-pink-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-pink-700 transition shadow-lg">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">More from <span id="related-category-title" class="text-pink-600"></span></h3>
+                <div id="related-products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-cart" class="tab-content hidden">
+            <h2 class="text-3xl font-bold mb-6">Shopping Cart</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div id="cart-items" class="bg-white rounded-xl shadow p-6 space-y-4">
+                        <p class="text-gray-500">Your cart is empty.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6 h-fit">
+                    <h3 class="text-xl font-bold mb-4">Order Summary</h3>
+                    <div class="flex justify-between mb-2 text-gray-600">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">BDT 0</span>
+                    </div>
+                    <div class="flex justify-between mb-4 text-gray-600">
+                        <span>Delivery Charge</span>
+                        <span id="cart-delivery-charge">BDT 100</span>
+                    </div>
+                    <hr class="mb-4">
+                    <div class="flex justify-between mb-6 text-lg font-bold text-gray-900">
+                        <span>Total</span>
+                        <span id="cart-total">BDT 100</span>
+                    </div>
+                    <button onclick="openCheckoutModal()" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition">Proceed to Checkout</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-orders" class="tab-content hidden">
+            <h2 class="text-3xl font-bold mb-6">Track Your Orders</h2>
+            <div id="user-orders-list" class="space-y-4">
+                <p class="text-gray-500">No orders placed yet.</p>
+            </div>
+        </section>
+
+        <section id="tab-admin" class="tab-content hidden">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <h2 class="text-3xl font-bold">Admin Dashboard</h2>
+                <div class="flex gap-3">
+                    <button onclick="switchTab('shop')" class="bg-gray-200 text-gray-700 px-4 py-2.5 rounded-lg font-medium hover:bg-gray-300 transition">Back to Shop</button>
+                    <button onclick="openAddProductModal()" class="bg-pink-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-pink-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Add New Product
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow border-l-4 border-pink-500">
+                    <p class="text-sm text-gray-500 font-medium">Total Products</p>
+                    <h3 id="admin-total-products" class="text-2xl font-bold text-gray-800">0</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow border-l-4 border-purple-500">
+                    <p class="text-sm text-gray-500 font-medium">Total Categories</p>
+                    <h3 id="admin-total-categories" class="text-2xl font-bold text-gray-800">0</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow border-l-4 border-blue-500">
+                    <p class="text-sm text-gray-500 font-medium">Total Orders</p>
+                    <h3 id="admin-total-orders" class="text-2xl font-bold text-gray-800">0</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow border-l-4 border-green-500">
+                    <p class="text-sm text-gray-500 font-medium">Pending Orders</p>
+                    <h3 id="admin-pending-orders" class="text-2xl font-bold text-gray-800">0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 mb-8">
+                <div class="flex flex-wrap justify-between items-center mb-4 gap-3">
+                    <h3 class="text-xl font-bold">Manage Categories</h3>
+                    <div class="flex gap-2">
+                        <button onclick="openAddCategoryModal()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition flex items-center gap-2">
+                            <i class="fa-solid fa-folder-plus"></i> Add Category
+                        </button>
+                        <button id="toggle-cat-btn" onclick="toggleCategorySection()" class="bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pink-700 transition flex items-center gap-2">
+                            <i id="toggle-cat-icon" class="fa-solid fa-eye"></i> <span id="toggle-cat-text">Manage Category</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="admin-categories-container" class="hidden border-t pt-4">
+                    <p class="text-xs text-gray-500 mb-3">Here you can view and delete categories safely.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b bg-gray-50 text-gray-600 text-sm">
+                                    <th class="p-3">Category Name</th>
+                                    <th class="p-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-categories-table" class="text-sm">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 mb-8">
+                <div class="flex flex-wrap justify-between items-center mb-4 gap-3">
+                    <h3 class="text-xl font-bold">Manage District & Delivery Charges</h3>
+                    <div class="flex gap-2">
+                        <button onclick="openAddDistrictModal()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Add District Charge
+                        </button>
+                        <button id="toggle-dist-btn" onclick="toggleDistrictSection()" class="bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pink-700 transition flex items-center gap-2">
+                            <i id="toggle-dist-icon" class="fa-solid fa-eye"></i> <span id="toggle-dist-text">Manage District</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="admin-districts-container" class="hidden border-t pt-4">
+                    <p class="text-xs text-gray-500 mb-3">Manage all 64 districts and their delivery charges.</p>
+                    <div class="overflow-x-auto max-h-96">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b bg-gray-50 text-gray-600 text-sm sticky top-0">
+                                    <th class="p-3 bg-gray-50">District (Zela)</th>
+                                    <th class="p-3 bg-gray-50">Delivery Charge (BDT)</th>
+                                    <th class="p-3 bg-gray-50">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-districts-table" class="text-sm">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-4">Customer Orders Management</h3>
+                <p class="text-xs text-gray-500 mb-3">Click on any order row to view complete location and customer details.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b bg-gray-50 text-gray-600 text-sm">
+                                <th class="p-3">Order ID</th>
+                                <th class="p-3">Customer</th>
+                                <th class="p-3">Items</th>
+                                <th class="p-3">Total</th>
+                                <th class="p-3">Status & Delay Status</th>
+                                <th class="p-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-orders-table" class="text-sm">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6">
+                <h3 class="text-xl font-bold mb-4">Manage Products</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b bg-gray-50 text-gray-600 text-sm">
+                                <th class="p-3">Image</th>
+                                <th class="p-3">Name</th>
+                                <th class="p-3">Price</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-products-table" class="text-sm">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer with Bold Brand Name & Facebook Link -->
+    <footer class="bg-white border-t border-gray-200 py-6 mt-auto shadow-inner">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-sm text-gray-600 gap-4">
+            <div>
+                &copy; <span class="font-bold">Friends Apparel</span>
+            </div>
+            <div>
+                Follow us: <a href="https://www.facebook.com/friendsapparel25" target="_blank" class="text-pink-600 font-semibold hover:underline ml-1"><i class="fa-brands fa-facebook mr-1"></i> Facebook Page</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="image-zoom-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-4">
+        <button onclick="closeImageModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-pink-400 focus:outline-none z-50"><i class="fa-solid fa-xmark"></i></button>
+        <div class="relative max-w-4xl max-h-[90vh] flex items-center justify-center">
+            <img id="zoomed-img" src="" alt="Zoomed Product View" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl">
+        </div>
+    </div>
+
+    <div id="add-category-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative">
+            <button onclick="closeAddCategoryModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-4 text-center">Add New Category</h3>
+            <form onsubmit="handleSaveCategory(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+                    <input type="text" id="cat-name-input" required placeholder="e.g., Party Wear, Abaya" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="category">
+                </div>
+                <button type="submit" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition">Save Category</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="add-district-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative">
+            <button onclick="closeAddDistrictModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-4 text-center">Add / Edit District Charge</h3>
+            <form onsubmit="handleSaveDistrict(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">District Name (Zela)</label>
+                    <input type="text" id="dist-name-input" required placeholder="e.g., Dhaka, Chattogram" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="address-level2">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Charge (BDT)</label>
+                    <input type="number" id="dist-charge-input" required placeholder="e.g., 100" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500">
+                </div>
+                <button type="submit" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition">Save Charge</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="cancel-reason-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative">
+            <button onclick="closeCancelReasonModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-2 text-center text-red-600">Cancel Order</h3>
+            <p class="text-xs text-gray-500 mb-4 text-center">Please provide a reason for cancellation. This will be shown to the customer.</p>
+            <form onsubmit="confirmOrderCancellation(event)">
+                <input type="hidden" id="cancel-target-order-id">
+                <div class="mb-4">
+                    <textarea id="cancel-reason-input" rows="3" required placeholder="e.g., Out of stock, Incorrect address..." class="w-full border rounded-lg px-3 py-2 focus:outline-red-500 text-sm"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-red-600 text-white py-2.5 rounded-lg font-medium hover:bg-red-700 transition">Confirm Cancellation</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="approve-date-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative">
+            <button onclick="closeApproveDateModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-2 text-center text-green-600">Approve Order</h3>
+            <p class="text-xs text-gray-500 mb-4 text-center">Please enter the expected delivery date for this parcel.</p>
+            <form onsubmit="confirmOrderApproval(event)">
+                <input type="hidden" id="approve-target-order-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Date</label>
+                    <input type="date" id="approve-delivery-date" required class="w-full border rounded-lg px-3 py-2 focus:outline-green-500 text-sm">
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white py-2.5 rounded-lg font-medium hover:bg-green-700 transition">Confirm Approval</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative">
+            <button onclick="closeProfileModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-6">
+                <div id="profile-modal-avatar" class="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-3 shadow-inner">
+                </div>
+                <h3 id="profile-modal-name" class="text-xl font-bold text-gray-800"></h3>
+                <p id="profile-modal-email" class="text-sm text-gray-500"></p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 text-sm space-y-2 mb-4">
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Account Type:</span>
+                    <span class="font-semibold text-pink-600">Verified Member</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Total Orders:</span>
+                    <span id="profile-modal-order-count" class="font-semibold text-gray-800">0</span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <button onclick="openChangeNameModal()" class="w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl font-medium hover:bg-gray-200 transition text-sm">Change Name</button>
+                <button onclick="openChangePasswordModal()" class="w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl font-medium hover:bg-gray-200 transition text-sm">Change Password</button>
+                <button onclick="closeProfileModal()" class="w-full bg-pink-600 text-white py-2.5 rounded-lg font-medium hover:bg-pink-700 transition">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="change-name-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative">
+            <button onclick="closeChangeNameModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-4 text-center">Change Name</h3>
+            <form onsubmit="handleNameChange(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">New Full Name</label>
+                    <input type="text" id="cn-new" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="name">
+                </div>
+                <button type="submit" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition">Update Name</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="change-pass-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative">
+            <button onclick="closeChangePasswordModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-4 text-center">Change Password</h3>
+            <form onsubmit="handlePasswordChange(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Old Password</label>
+                    <input type="password" id="cp-old" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="current-password">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                    <input type="password" id="cp-new" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="new-password">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                    <input type="password" id="cp-confirm" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="new-password">
+                </div>
+                <button type="submit" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-auth-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative">
+            <button onclick="closeAdminAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-2 text-center">Admin Access</h3>
+            <p class="text-xs text-gray-500 mb-4 text-center">Please enter admin password to continue.</p>
+            <form onsubmit="verifyAdminPassword(event)">
+                <div class="mb-4">
+                    <input type="password" id="admin-pass-input" required placeholder="Enter password" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="current-password">
+                </div>
+                <button type="submit" class="w-full bg-pink-600 text-white py-2.5 rounded-lg font-medium hover:bg-pink-700 transition">Verify & Open</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="order-details-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeOrderDetailsModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-4 text-gray-900 border-b pb-2">Order Complete Details</h3>
+            <div id="order-details-content" class="space-y-4 text-sm">
+            </div>
+            <div class="mt-6">
+                <button onclick="closeOrderDetailsModal()" class="w-full bg-gray-200 text-gray-700 py-2.5 rounded-xl font-medium hover:bg-gray-300 transition">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex justify-center mb-3">
+                <div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center overflow-hidden border border-pink-500 shadow">
+                    <img src="https://files.catbox.moe/nqnijd.png" alt="Logo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150'">
+                </div>
+            </div>
+            <h3 id="auth-modal-title" class="text-2xl font-bold mb-4 text-center">Sign In to Friends Apparel</h3>
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+                <div id="name-field-group" class="mb-4 hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="auth-name" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="name">
+                </div>
+                <div id="phone-field-group" class="mb-4 hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" id="auth-phone" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="01XXXXXXXXX" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="tel">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="auth-email" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="email">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="auth-password" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="current-password">
+                </div>
+                <button type="submit" id="auth-submit-btn" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition mb-4">Sign In</button>
+                <div class="text-center text-sm">
+                    <span id="auth-switch-text" class="text-gray-600">Don't have an account?</span>
+                    <button type="button" onclick="toggleAuthMode()" class="text-pink-600 font-semibold ml-1 hover:underline" id="auth-switch-btn">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal with Size Support -->
+    <div id="add-product-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAddProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="product-modal-title" class="text-2xl font-bold mb-4">Add New Product</h3>
+            <form id="product-form" onsubmit="handleSaveProduct(event)">
+                <input type="hidden" id="edit-product-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                    <input type="text" id="p-name" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Price (BDT)</label>
+                    <input type="number" id="p-price" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category Select</label>
+                    <select id="p-category" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500 bg-white">
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Available Sizes (Comma separated)</label>
+                    <input type="text" id="p-sizes" required placeholder="e.g., S, M, L, XL, XXL" value="S, M, L, XL" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Main Cover Image File (Select from Device)</label>
+                    <input type="file" id="p-file" accept="image/*" class="w-full border rounded-lg px-3 py-2 bg-white text-sm file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Extra Images Files (Multiple Select)</label>
+                    <input type="file" id="p-extra-files" accept="image/*,video/*" multiple class="w-full border rounded-lg px-3 py-2 bg-white text-sm file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea id="p-desc" rows="3" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition">Save Product</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-4">Checkout Details</h3>
+            <form onsubmit="handleCheckout(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="c-name" required class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="name">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" id="c-phone" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required placeholder="01XXXXXXXXX" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="tel">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Select District (Zela)</label>
+                    <button type="button" onclick="toggleCheckoutDistrictDropdown()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2.5 px-3 rounded-lg border text-left flex justify-between items-center transition">
+                        <span id="selected-district-label">Select District...</span>
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="district-dropdown-container" class="hidden mt-2 border rounded-xl p-3 bg-white shadow-lg space-y-2">
+                        <input type="text" id="district-search-input" oninput="filterCheckoutDistricts()" placeholder="Search district..." class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-pink-500 bg-gray-50">
+                        <select id="c-district" size="5" required onchange="onCheckoutDistrictChange()" class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500 bg-white">
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Shipping Address / Location</label>
+                    <textarea id="c-address" rows="3" required placeholder="House, Road, Area, City..." class="w-full border rounded-lg px-3 py-2 focus:outline-pink-500" autocomplete="street-address"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-3 rounded-lg shadow-lg hidden transition-opacity duration-300 z-50"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCs7t1wEcdQif02VBMYiklCxoZS0964k3Q",
+            authDomain: "friends-apparel.firebaseapp.com",
+            projectId: "friends-apparel",
+            storageBucket: "friends-apparel.firebasestorage.app",
+            messagingSenderId: "769194979321",
+            appId: "1:769194979321:web:f3bde466f2e05398311728",
+            measurementId: "G-ZYD0FG7NX5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'friends-apparel-default';
+
+        let user = null;
+        let products = [];
+        let categories = [];
+        let districts = [];
+        let orders = [];
+        let cart = JSON.parse(localStorage.getItem('fa_cart')) || [];
+        let users = JSON.parse(localStorage.getItem('fa_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('fa_current_user')) || null;
+        let isSignUpMode = false;
+        let selectedProductForDetails = null;
+        let activeCategoryFilter = 'All';
+        let isCategorySectionVisible = false;
+        let isDistrictSectionVisible = false;
+        const ADMIN_SECRET = "admin61";
+
+        const all64Districts = [
+            "Dhaka", "Gazipur", "Narayanganj", "Munshiganj", "Manikganj", "Narsingdi", "Faridpur", "Rajbari", "Gopalganj", "Madaripur", "Shariatpur", "Kishoreganj", "Tangail",
+            "Chattogram", "Cox's Bazar", "Rangamati", "Khagrachhari", "Bandarban", "Noakhali", "Lakshmipur", "Feni", "Cumilla", "Chandpur", "Brahmanbaria",
+            "Rajshahi", "Natore", "Naogaon", "Chapainawabganj", "Pabna", "Sirajganj", "Bogura", "Joypurhat",
+            "Khulna", "Bagerhat", "Satkhira", "Jashore", "Magura", "Narail", "Kushtia", "Meherpur", "Chuadanga", "Jhenaidah",
+            "Barishal", "Patuakhali", "Bhola", "Pirojpur", "Barguna", "Jhalokati",
+            "Sylhet", "Moulvibazar", "Habiganj", "Sunamganj",
+            "Rangpur", "Gaibandha", "Kurigram", "Lalmonirhat", "Nilphamari", "Dinajpur", "Thakurgaon", "Panchagarh",
+            "Mymensingh", "Netrokona", "Sherpur", "Jamalpur"
+        ];
+
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                        return;
+                    } catch (customTokenErr) {
+                        console.warn("Custom token sign-in warning:", customTokenErr);
+                    }
+                }
+                await signInAnonymously(auth);
+            } catch(e) {
+                console.warn("Auth initialization warning:", e);
+                initLocalStorageSync();
+            }
+        };
+        initAuth();
+
+        onAuthStateChanged(auth, (u) => {
+            user = u;
+            if (user) {
+                initFirestoreSync();
+            } else {
+                initLocalStorageSync();
+            }
+        });
+
+        function initLocalStorageSync() {
+            const savedCats = localStorage.getItem('fa_categories');
+            if(savedCats) {
+                categories = JSON.parse(savedCats);
+            } else {
+                categories = ["Lehenga", "Kurti", "Salwar Kameez", "Abaya", "Gown"];
+                localStorage.setItem('fa_categories', JSON.stringify(categories));
+            }
+
+            const savedDistricts = localStorage.getItem('fa_districts');
+            if(savedDistricts) {
+                districts = JSON.parse(savedDistricts);
+            } else {
+                districts = all64Districts.map(name => ({ name, charge: name === "Dhaka" ? 100 : 150 }));
+                localStorage.setItem('fa_districts', JSON.stringify(districts));
+            }
+
+            const savedProducts = localStorage.getItem('fa_products');
+            if(savedProducts) {
+                products = JSON.parse(savedProducts);
+            } else {
+                products = [
+                    { 
+                        id: 1, 
+                        name: "Designer Party Lehenga", 
+                        price: 6500, 
+                        category: "Lehenga", 
+                        sizes: ["S", "M", "L", "XL"],
+                        image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=600&q=80", 
+                        extras: ["https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80"],
+                        desc: "Exquisite embroidered partywear lehenga choli with rich dupatta." 
+                    },
+                    { 
+                        id: 2, 
+                        name: "Embroidered Cotton Kurti", 
+                        price: 1850, 
+                        category: "Kurti", 
+                        sizes: ["M", "L", "XL"],
+                        image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80", 
+                        extras: [],
+                        desc: "Comfortable premium cotton kurti with delicate thread work." 
+                    }
+                ];
+                localStorage.setItem('fa_products', JSON.stringify(products));
+            }
+            renderCategoryPills();
+            renderProducts(products);
+
+            const savedOrders = localStorage.getItem('fa_orders');
+            if(savedOrders) {
+                orders = JSON.parse(savedOrders);
+            }
+        }
+
+        function initFirestoreSync() {
+            if (!user) return;
+            
+            const catsRef = collection(db, 'artifacts', appId, 'public', 'data', 'categories');
+            onSnapshot(catsRef, (snapshot) => {
+                if(snapshot.empty) {
+                    const defaultCats = ["Lehenga", "Kurti", "Salwar Kameez", "Abaya", "Gown"];
+                    defaultCats.forEach(c => {
+                        setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'categories', c), { name: c });
+                    });
+                } else {
+                    categories = [];
+                    snapshot.forEach(docSnap => {
+                        categories.push(docSnap.data().name);
+                    });
+                    localStorage.setItem('fa_categories', JSON.stringify(categories));
+                    renderCategoryPills();
+                    if(!document.getElementById('tab-admin').classList.contains('hidden')) {
+                        renderAdminDashboard();
+                    }
+                }
+            }, (error) => {
+                console.warn("Categories sync fallback:", error);
+            });
+
+            const distRef = collection(db, 'artifacts', appId, 'public', 'data', 'districts');
+            onSnapshot(distRef, (snapshot) => {
+                if(snapshot.empty) {
+                    all64Districts.forEach(name => {
+                        const charge = name === "Dhaka" ? 100 : 150;
+                        setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'districts', name), { name, charge });
+                    });
+                } else {
+                    districts = [];
+                    snapshot.forEach(docSnap => {
+                        districts.push(docSnap.data());
+                    });
+                    all64Districts.forEach(name => {
+                        if (!districts.some(d => d.name.toLowerCase() === name.toLowerCase())) {
+                            districts.push({ name, charge: 150 });
+                        }
+                    });
+                    localStorage.setItem('fa_districts', JSON.stringify(districts));
+                    if(!document.getElementById('tab-admin').classList.contains('hidden')) {
+                        renderAdminDashboard();
+                    }
+                }
+            }, (error) => {
+                console.warn("Districts sync fallback:", error);
+            });
+
+            const productsRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+            onSnapshot(productsRef, (snapshot) => {
+                if(snapshot.empty) {
+                    const defaultProducts = [
+                        { 
+                            id: 1, 
+                            name: "Designer Party Lehenga", 
+                            price: 6500, 
+                            category: "Lehenga", 
+                            sizes: ["S", "M", "L", "XL"],
+                            image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=600&q=80", 
+                            extras: ["https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80"],
+                            desc: "Exquisite embroidered partywear lehenga choli with rich dupatta." 
+                        },
+                        { 
+                            id: 2, 
+                            name: "Embroidered Cotton Kurti", 
+                            price: 1850, 
+                            category: "Kurti", 
+                            sizes: ["M", "L", "XL"],
+                            image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80", 
+                            extras: [],
+                            desc: "Comfortable premium cotton kurti with delicate thread work." 
+                        }
+                    ];
+                    defaultProducts.forEach(p => {
+                        setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', String(p.id)), p);
+                    });
+                } else {
+                    products = [];
+                    snapshot.forEach(docSnap => {
+                        products.push(docSnap.data());
+                    });
+                    localStorage.setItem('fa_products', JSON.stringify(products));
+                    renderCategoryPills();
+                    renderProducts(products);
+                }
+            }, (error) => {
+                console.warn("Products sync fallback:", error);
+                initLocalStorageSync();
+            });
+
+            const ordersRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
+            onSnapshot(ordersRef, (snapshot) => {
+                orders = [];
+                snapshot.forEach(docSnap => {
+                    orders.push(docSnap.data());
+                });
+                localStorage.setItem('fa_orders', JSON.stringify(orders));
+                if(!document.getElementById('tab-admin').classList.contains('hidden')) {
+                    renderAdminDashboard();
+                }
+            }, (error) => {
+                console.warn("Orders sync fallback:", error);
+                const savedOrders = localStorage.getItem('fa_orders');
+                if(savedOrders) orders = JSON.parse(savedOrders);
+            });
+        }
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        function toggleMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        function handleBodyClick(e) {
+            const dropdown = document.getElementById('profile-dropdown');
+            const profileBtn = document.getElementById('profile-btn');
+            if(dropdown && profileBtn) {
+                if(!profileBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            }
+        }
+
+        window.openImageModal = function(imgSrc) {
+            document.getElementById('zoomed-img').src = imgSrc;
+            document.getElementById('image-zoom-modal').classList.remove('hidden');
+        }
+        window.closeImageModal = function() {
+            document.getElementById('image-zoom-modal').classList.add('hidden');
+        }
+
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
+                btn.classList.add('text-gray-500');
+            });
+            
+            if(tabId === 'shop') {
+                renderCategoryPills();
+                renderProducts(products);
+            }
+            if(tabId === 'cart') renderCart();
+            if(tabId === 'orders') renderUserOrders();
+            if(tabId === 'admin') renderAdminDashboard();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.updateAuthNav = function() {
+            const navSec = document.getElementById('auth-nav-section');
+            const mobSec = document.getElementById('mobile-auth-section');
+            
+            if(currentUser) {
+                const firstLetter = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U';
+                navSec.innerHTML = `
+                    <div class="relative">
+                        <button id="profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center space-x-2 bg-pink-50 text-pink-600 px-3 py-1.5 rounded-full hover:bg-pink-100 transition focus:outline-none">
+                            <div class="w-7 h-7 rounded-full bg-pink-600 text-white font-bold flex items-center justify-center text-xs shadow">
+                                ${firstLetter}
+                            </div>
+                            <span class="text-sm font-semibold">${currentUser.name}</span>
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white border rounded-xl shadow-lg hidden z-50 py-1">
+                            <button onclick="openProfileModal()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 flex items-center gap-2">
+                                <i class="fa-solid fa-user"></i> View Profile
+                            </button>
+                            <button onclick="promptAdminAccess()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 flex items-center gap-2">
+                                <i class="fa-solid fa-gauge"></i> Admin Dashboard
+                            </button>
+                            <div class="border-t my-1"></div>
+                            <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                `;
+                mobSec.innerHTML = `
+                    <div class="py-2 text-sm font-semibold text-gray-700">Logged in as ${currentUser.name}</div>
+                    <button onclick="openProfileModal(); toggleMobileMenu();" class="block w-full text-left py-2 text-gray-700 font-medium">View Profile</button>
+                    <button onclick="promptAdminAccess(); toggleMobileMenu();" class="block w-full text-left py-2 text-gray-700 font-medium">Admin Dashboard</button>
+                    <button onclick="handleLogout()" class="block w-full text-left py-2 text-red-600 font-medium">Logout</button>
+                `;
+            } else {
+                navSec.innerHTML = `<button onclick="openAuthModal('signin')" class="bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pink-700 transition">Sign In</button>`;
+                mobSec.innerHTML = `<button onclick="openAuthModal('signin'); toggleMobileMenu();" class="block w-full text-left py-2 text-pink-600 font-medium">Sign In / Sign Up</button>`;
+            }
+        }
+
+        window.toggleProfileDropdown = function(e) {
+            e.stopPropagation();
+            document.getElementById('profile-dropdown').classList.toggle('hidden');
+        }
+
+        window.openProfileModal = function() {
+            const dropdown = document.getElementById('profile-dropdown');
+            if(dropdown) dropdown.classList.add('hidden');
+            if(!currentUser) return;
+            const firstLetter = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U';
+            document.getElementById('profile-modal-avatar').innerText = firstLetter;
+            document.getElementById('profile-modal-name').innerText = currentUser.name;
+            document.getElementById('profile-modal-email').innerText = currentUser.email;
+            document.getElementById('profile-modal-order-count').innerText = orders.filter(o => o.userEmail === currentUser.email).length;
+            document.getElementById('profile-modal').classList.remove('hidden');
+        }
+        window.closeProfileModal = function() {
+            document.getElementById('profile-modal').classList.add('hidden');
+        }
+
+        window.openChangeNameModal = function() {
+            closeProfileModal();
+            document.getElementById('cn-new').value = currentUser.name || '';
+            document.getElementById('change-name-modal').classList.remove('hidden');
+        }
+        window.closeChangeNameModal = function() {
+            document.getElementById('change-name-modal').classList.add('hidden');
+        }
+
+        window.handleNameChange = function(e) {
+            e.preventDefault();
+            const newName = document.getElementById('cn-new').value.trim();
+            if(!newName) {
+                showToast("Name cannot be empty!");
+                return;
+            }
+
+            currentUser.name = newName;
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if(userIndex !== -1) {
+                users[userIndex].name = newName;
+                localStorage.setItem('fa_users', JSON.stringify(users));
+            }
+            localStorage.setItem('fa_current_user', JSON.stringify(currentUser));
+            
+            closeChangeNameModal();
+            updateAuthNav();
+            showToast("Name updated successfully!");
+        }
+
+        window.openChangePasswordModal = function() {
+            closeProfileModal();
+            document.getElementById('change-pass-modal').classList.remove('hidden');
+        }
+        window.closeChangePasswordModal = function() {
+            document.getElementById('change-pass-modal').classList.add('hidden');
+        }
+
+        window.handlePasswordChange = function(e) {
+            e.preventDefault();
+            const oldPass = document.getElementById('cp-old').value;
+            const newPass = document.getElementById('cp-new').value;
+            const confirmPass = document.getElementById('cp-confirm').value;
+
+            if(currentUser.password !== oldPass) {
+                showToast("Incorrect old password!");
+                return;
+            }
+            if(newPass !== confirmPass) {
+                showToast("New passwords do not match!");
+                return;
+            }
+            if(newPass.length < 6) {
+                showToast("Password must be at least 6 characters!");
+                return;
+            }
+
+            currentUser.password = newPass;
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if(userIndex !== -1) {
+                users[userIndex].password = newPass;
+                localStorage.setItem('fa_users', JSON.stringify(users));
+            }
+            localStorage.setItem('fa_current_user', JSON.stringify(currentUser));
+            
+            closeChangePasswordModal();
+            showToast("Password updated successfully!");
+        }
+
+        window.promptAdminAccess = function() {
+            const dropdown = document.getElementById('profile-dropdown');
+            if(dropdown) dropdown.classList.add('hidden');
+            document.getElementById('admin-pass-input').value = '';
+            document.getElementById('admin-auth-modal').classList.remove('hidden');
+        }
+        window.closeAdminAuthModal = function() {
+            document.getElementById('admin-auth-modal').classList.add('hidden');
+        }
+        window.verifyAdminPassword = function(e) {
+            e.preventDefault();
+            if(document.getElementById('admin-pass-input').value === ADMIN_SECRET) {
+                closeAdminAuthModal();
+                switchTab('admin');
+                showToast("Admin access granted!");
+            } else {
+                showToast("Incorrect password! Please try again.");
+            }
+        }
+
+        window.openAuthModal = function(mode) {
+            isSignUpMode = (mode === 'signup');
+            document.getElementById('auth-modal-title').innerText = isSignUpMode ? "Create an Account" : "Sign In to Friends Apparel";
+            document.getElementById('auth-submit-btn').innerText = isSignUpMode ? "Sign Up" : "Sign In";
+            document.getElementById('name-field-group').classList.toggle('hidden', !isSignUpMode);
+            document.getElementById('phone-field-group').classList.toggle('hidden', !isSignUpMode);
+            document.getElementById('auth-switch-text').innerText = isSignUpMode ? "Already have an account?" : "Don't have an account?";
+            document.getElementById('auth-switch-btn').innerText = isSignUpMode ? "Sign In" : "Sign Up";
+            document.getElementById('auth-form').reset();
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+        window.closeAuthModal = function() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+        window.toggleAuthMode = function() {
+            isSignUpMode = !isSignUpMode;
+            document.getElementById('auth-modal-title').innerText = isSignUpMode ? "Create an Account" : "Sign In to Friends Apparel";
+            document.getElementById('auth-submit-btn').innerText = isSignUpMode ? "Sign Up" : "Sign In";
+            document.getElementById('name-field-group').classList.toggle('hidden', !isSignUpMode);
+            document.getElementById('phone-field-group').classList.toggle('hidden', !isSignUpMode);
+            document.getElementById('auth-switch-text').innerText = isSignUpMode ? "Already have an account?" : "Don't have an account?";
+            document.getElementById('auth-switch-btn').innerText = isSignUpMode ? "Sign In" : "Sign Up";
+        }
+
+        window.handleAuthSubmit = function(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+
+            if(isSignUpMode) {
+                const name = document.getElementById('auth-name').value;
+                const phone = document.getElementById('auth-phone').value;
+                if(users.find(u => u.email === email)) {
+                    showToast("Email already registered!");
+                    return;
+                }
+                currentUser = { id: Date.now(), name, phone, email, password };
+                users.push(currentUser);
+                localStorage.setItem('fa_users', JSON.stringify(users));
+                showToast("Account created successfully!");
+            } else {
+                currentUser = users.find(u => u.email === email && u.password === password);
+                if(!currentUser) {
+                    showToast("Invalid email or password!");
+                    return;
+                }
+                showToast("Signed in successfully!");
+            }
+            localStorage.setItem('fa_current_user', JSON.stringify(currentUser));
+            closeAuthModal();
+            updateAuthNav();
+        }
+
+        window.handleLogout = function() {
+            currentUser = null;
+            localStorage.removeItem('fa_current_user');
+            updateAuthNav();
+            switchTab('shop');
+            showToast("Logged out successfully!");
+        }
+
+        window.handleSearch = function() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            let filtered = products;
+            if(activeCategoryFilter !== 'All') {
+                filtered = filtered.filter(p => p.category.toLowerCase() === activeCategoryFilter.toLowerCase());
+            }
+            renderProducts(filtered.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query)));
+        }
+
+        window.filterByCategory = function(catName) {
+            activeCategoryFilter = catName;
+            renderCategoryPills();
+            let filtered = products;
+            if(catName !== 'All') {
+                filtered = products.filter(p => p.category.toLowerCase() === catName.toLowerCase());
+            }
+            const query = document.getElementById('search-input').value.toLowerCase();
+            if(query) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query));
+            }
+            renderProducts(filtered);
+        }
+
+        function renderCategoryPills() {
+            const container = document.getElementById('category-pills-container');
+            if(!container) return;
+            let html = `<button onclick="filterByCategory('All')" class="px-4 py-2 rounded-full text-sm font-semibold transition ${activeCategoryFilter === 'All' ? 'bg-pink-600 text-white shadow' : 'bg-white text-gray-700 border hover:bg-gray-50'}">All</button>`;
+            categories.forEach(cat => {
+                const isActive = activeCategoryFilter.toLowerCase() === cat.toLowerCase();
+                html += `<button onclick="filterByCategory('${cat}')" class="px-4 py-2 rounded-full text-sm font-semibold transition ${isActive ? 'bg-pink-600 text-white shadow' : 'bg-white text-gray-700 border hover:bg-gray-50'}">${cat}</button>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            if(items.length === 0) {
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">No matching products found.</p>';
+                return;
+            }
+            items.forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-64 object-cover cursor-pointer" onclick="openProductDetails(${p.id})" onerror="this.src='https://via.placeholder.com/300'">
+                            <div class="p-4">
+                                <span class="text-xs uppercase bg-pink-100 text-pink-600 font-semibold px-2 py-0.5 rounded">${p.category}</span>
+                                <h3 class="font-bold text-lg mt-2 cursor-pointer hover:text-pink-600" onclick="openProductDetails(${p.id})">${p.name}</h3>
+                                <p class="text-pink-600 font-semibold mt-1">BDT ${p.price}</p>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0">
+                            <button onclick="openProductDetails(${p.id})" class="w-full bg-pink-50 text-pink-600 py-2 rounded-lg font-medium hover:bg-pink-600 hover:text-white transition">Select Size & Buy</button>
+                        </div>
+                    </div>
+                `;
+            });
+            updateCartCount();
+        }
+
+        window.openProductDetails = function(id) {
+            selectedProductForDetails = products.find(p => p.id === id);
+            if(!selectedProductForDetails) return;
+
+            document.getElementById('detail-main-img').src = selectedProductForDetails.image;
+            document.getElementById('detail-category').innerText = selectedProductForDetails.category;
+            document.getElementById('detail-title').innerText = selectedProductForDetails.name;
+            document.getElementById('detail-price').innerText = `BDT ${selectedProductForDetails.price}`;
+            document.getElementById('detail-desc').innerText = selectedProductForDetails.desc;
+            document.getElementById('related-category-title').innerText = selectedProductForDetails.category;
+
+            const sizesContainer = document.getElementById('detail-size-options');
+            const productSizes = selectedProductForDetails.sizes || ["S", "M", "L", "XL"];
+            sizesContainer.innerHTML = productSizes.map((s, idx) => `
+                <label class="cursor-pointer">
+                    <input type="radio" name="product-size" value="${s}" ${idx === 0 ? 'checked' : ''} class="peer sr-only">
+                    <span class="px-3 py-1.5 border rounded-lg text-sm font-medium peer-checked:bg-pink-600 peer-checked:text-white peer-checked:border-pink-600 hover:bg-gray-100 transition inline-block">${s}</span>
+                </label>
+            `).join('');
+
+            const thumbContainer = document.getElementById('detail-thumbnails');
+            thumbContainer.innerHTML = `<img src="${selectedProductForDetails.image}" onclick="document.getElementById('detail-main-img').src='${selectedProductForDetails.image}'" class="w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-pink-600 shadow" onerror="this.src='https://via.placeholder.com/100'">`;
+            if(selectedProductForDetails.extras) {
+                selectedProductForDetails.extras.forEach(url => {
+                    if(url.trim()) thumbContainer.innerHTML += `<img src="${url.trim()}" onclick="document.getElementById('detail-main-img').src='${url.trim()}'" class="w-20 h-20 object-cover rounded-lg cursor-pointer border shadow" onerror="this.src='https://via.placeholder.com/100'">`;
+                });
+            }
+
+            const relatedGrid = document.getElementById('related-products-grid');
+            relatedGrid.innerHTML = '';
+            const relatedItems = products.filter(p => p.category.toLowerCase() === selectedProductForDetails.category.toLowerCase() && p.id !== selectedProductForDetails.id);
+            
+            if(relatedItems.length === 0) {
+                relatedGrid.innerHTML = '<p class="col-span-full text-gray-500">No other products found in this category.</p>';
+            } else {
+                relatedItems.forEach(p => {
+                    relatedGrid.innerHTML += `
+                        <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden flex flex-col justify-between">
+                            <div>
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-60 object-cover cursor-pointer" onclick="openProductDetails(${p.id})" onerror="this.src='https://via.placeholder.com/300'">
+                                <div class="p-4">
+                                    <span class="text-xs uppercase bg-pink-100 text-pink-600 font-semibold px-2 py-0.5 rounded">${p.category}</span>
+                                    <h4 class="font-bold text-base mt-2 cursor-pointer hover:text-pink-600" onclick="openProductDetails(${p.id})">${p.name}</h4>
+                                    <p class="text-pink-600 font-semibold mt-1">BDT ${p.price}</p>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-0">
+                                <button onclick="openProductDetails(${p.id})" class="w-full bg-pink-50 text-pink-600 py-2 rounded-lg font-medium hover:bg-pink-600 hover:text-white transition">Select Size & Buy</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            switchTab('product-details');
+        }
+
+        window.addDetailItemToCart = function() {
+            if(selectedProductForDetails) {
+                const selectedSizeRadio = document.querySelector('input[name="product-size"]:checked');
+                const size = selectedSizeRadio ? selectedSizeRadio.value : 'M';
+                addToCartWithOptions(selectedProductForDetails.id, size);
+            }
+        }
+
+        window.addToCartWithOptions = function(id, size) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id && item.size === size);
+            if(existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1, size: size, selected: false });
+            }
+            saveCart();
+            showToast(`Added to cart (Size: ${size})!`);
+        }
+
+        window.updateCartQty = function(id, size, change) {
+            const item = cart.find(i => i.id === id && i.size === size);
+            if(item) {
+                item.qty += change;
+                if(item.qty <= 0) cart = cart.filter(i => !(i.id === id && i.size === size));
+                saveCart();
+                renderCart();
+            }
+        }
+
+        window.toggleCartItemSelection = function(id, size) {
+            const item = cart.find(i => i.id === id && i.size === size);
+            if(item) {
+                item.selected = !item.selected;
+                saveCart();
+                renderCart();
+            }
+        }
+
+        window.removeCartItemCompletely = function(id, size) {
+            cart = cart.filter(i => !(i.id === id && i.size === size));
+            saveCart();
+            renderCart();
+            showToast("Product removed from cart.");
+        }
+
+        function saveCart() {
+            localStorage.setItem('fa_cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+        function updateCartCount() {
+            document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+        }
+
+        window.renderCart = function() {
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            if(cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">Your cart is empty.</p>';
+                document.getElementById('cart-subtotal').innerText = 'BDT 0';
+                document.getElementById('cart-delivery-charge').innerText = 'BDT 100';
+                document.getElementById('cart-total').innerText = 'BDT 100';
+                return;
+            }
+            let subtotal = 0;
+            const anyChecked = cart.some(i => i.selected === true);
+
+            cart.forEach(item => {
+                const isItemActive = anyChecked ? item.selected === true : true;
+                if (isItemActive) {
+                    subtotal += item.price * item.qty;
+                }
+                const isChecked = item.selected === true ? 'checked' : '';
+                container.innerHTML += `
+                    <div class="flex items-center justify-between border-b pb-4">
+                        <div class="flex items-center space-x-3">
+                            <input type="checkbox" ${isChecked} onchange="toggleCartItemSelection(${item.id}, '${item.size}')" class="w-4 h-4 text-pink-600 rounded focus:ring-pink-500 cursor-pointer">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg" onerror="this.src='https://via.placeholder.com/100'">
+                            <div>
+                                <h4 class="font-bold text-gray-800">${item.name}</h4>
+                                <p class="text-xs text-gray-500 font-semibold">Size: <span class="text-pink-600">${item.size}</span></p>
+                                <p class="text-pink-600 text-sm">BDT ${item.price}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="updateCartQty(${item.id}, '${item.size}', -1)" class="bg-gray-100 px-2.5 py-1 rounded font-bold">-</button>
+                            <span class="font-medium">${item.qty}</span>
+                            <button onclick="updateCartQty(${item.id}, '${item.size}', 1)" class="bg-gray-100 px-2.5 py-1 rounded font-bold">+</button>
+                            <button onclick="removeCartItemCompletely(${item.id}, '${item.size}')" class="text-red-500 hover:text-red-700 ml-2" title="Remove Item"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('cart-subtotal').innerText = `BDT ${subtotal}`;
+            const currentCharge = getCurrentDeliveryCharge();
+            document.getElementById('cart-delivery-charge').innerText = `BDT ${currentCharge}`;
+            document.getElementById('cart-total').innerText = `BDT ${subtotal > 0 ? subtotal + currentCharge : 0}`;
+        }
+
+        window.toggleCheckoutDistrictDropdown = function() {
+            const dropdown = document.getElementById('district-dropdown-container');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function populateDistrictDropdown(filterText = '', selectedVal = '') {
+            const selectEl = document.getElementById('c-district');
+            if(!selectEl) return;
+            selectEl.innerHTML = '';
+            
+            const filtered = districts.filter(d => d.name.toLowerCase().includes(filterText.toLowerCase()));
+            
+            if(filtered.length === 0) {
+                selectEl.innerHTML = '<option value="">No districts found</option>';
+                return;
+            }
+            filtered.forEach(d => {
+                const isSel = (d.name.toLowerCase() === selectedVal.toLowerCase()) ? 'selected' : '';
+                selectEl.innerHTML += `<option value="${d.name}" ${isSel}>${d.name} (Charge: BDT ${d.charge})</option>`;
+            });
+        }
+
+        window.filterCheckoutDistricts = function() {
+            const searchVal = document.getElementById('district-search-input').value;
+            const selectEl = document.getElementById('c-district');
+            const currentVal = selectEl.value;
+            populateDistrictDropdown(searchVal, currentVal);
+        }
+
+        function getCurrentDeliveryCharge() {
+            const selectEl = document.getElementById('c-district');
+            if(selectEl && selectEl.value) {
+                const found = districts.find(d => d.name.toLowerCase() === selectEl.value.toLowerCase());
+                if(found) return found.charge;
+            }
+            return districts.length > 0 ? districts[0].charge : 100;
+        }
+
+        window.onCheckoutDistrictChange = function() {
+            const selectEl = document.getElementById('c-district');
+            if(selectEl.value) {
+                document.getElementById('selected-district-label').innerText = selectEl.value;
+                document.getElementById('district-dropdown-container').classList.add('hidden');
+                renderCart();
+            }
+        }
+
+        window.openCheckoutModal = function() {
+            if(!currentUser) {
+                showToast("Please sign in first to checkout!");
+                openAuthModal('signin');
+                return;
+            }
+            if(cart.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+
+            document.getElementById('c-name').value = currentUser.name;
+            if(currentUser.phone) {
+                document.getElementById('c-phone').value = currentUser.phone;
+            }
+            
+            const defaultDist = districts.find(d => d.name.toLowerCase() === "dhaka") || districts[0];
+            document.getElementById('selected-district-label').innerText = defaultDist ? defaultDist.name : "Select District...";
+            document.getElementById('district-dropdown-container').classList.add('hidden');
+
+            const searchInput = document.getElementById('district-search-input');
+            if(searchInput) searchInput.value = '';
+            populateDistrictDropdown('', defaultDist ? defaultDist.name : '');
+            renderCart();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+        window.closeCheckoutModal = function() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        window.handleCheckout = async function(e) {
+            e.preventDefault();
+            const selectEl = document.getElementById('c-district');
+            const districtName = selectEl.value;
+            if(!districtName) {
+                showToast("Please select a district!");
+                return;
+            }
+
+            const anyChecked = cart.some(i => i.selected === true);
+            const checkoutItems = anyChecked ? cart.filter(i => i.selected === true) : [...cart];
+
+            if(checkoutItems.length === 0) {
+                showToast("Please select at least one item!");
+                return;
+            }
+
+            const deliveryCharge = getCurrentDeliveryCharge();
+            const subtotal = checkoutItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            const newOrder = {
+                id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+                customerName: document.getElementById('c-name').value,
+                userEmail: currentUser.email,
+                phone: document.getElementById('c-phone').value,
+                district: districtName,
+                address: document.getElementById('c-address').value,
+                items: checkoutItems,
+                subtotal: subtotal,
+                deliveryCharge: deliveryCharge,
+                total: subtotal + deliveryCharge,
+                status: 'Pending',
+                delayStatus: 'On Time',
+                deliveryDate: '',
+                date: new Date().toLocaleString()
+            };
+            
+            if (user) {
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', newOrder.id), newOrder);
+                } catch(err) {
+                    console.warn("Firestore order save warning, saving locally:", err);
+                }
+            }
+
+            orders.push(newOrder);
+            localStorage.setItem('fa_orders', JSON.stringify(orders));
+            
+            if (anyChecked) {
+                cart = cart.filter(i => i.selected !== true);
+            } else {
+                cart = [];
+            }
+            saveCart();
+            closeCheckoutModal();
+            showToast("Order placed successfully!");
+            switchTabCustom('orders');
+        }
+
+        function switchTabCustom(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            if(tabId === 'orders') renderUserOrders();
+        }
+
+        window.dismissCancelledOrder = async function(orderId) {
+            orders = orders.filter(o => o.id !== orderId);
+            if (user) {
+                try {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', orderId));
+                } catch (err) {
+                    console.warn("Firestore order remove warning:", err);
+                }
+            }
+            localStorage.setItem('fa_orders', JSON.stringify(orders));
+            renderUserOrders();
+            showToast("Order dismissed from tracking history.");
+        }
+
+        window.renderUserOrders = function() {
+            const container = document.getElementById('user-orders-list');
+            container.innerHTML = '';
+            if(!currentUser) {
+                container.innerHTML = '<p class="text-gray-500">Please sign in to view your orders.</p>';
+                return;
+            }
+            const myOrders = orders.filter(o => o.userEmail === currentUser.email);
+            if(myOrders.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">No orders placed yet.</p>';
+                return;
+            }
+            myOrders.forEach(o => {
+                let badge = o.status === 'Approved' ? 'bg-green-100 text-green-600' : o.status === 'Cancelled' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600';
+                let delayBadge = o.delayStatus && o.delayStatus !== 'On Time' ? `<span class="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-600 ml-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Delay: ${o.delayStatus}</span>` : '';
+                let deliveryDateBox = o.status === 'Approved' && o.deliveryDate ? `<p class="text-sm text-green-700 font-semibold mt-1"><i class="fa-solid fa-truck-fast mr-1"></i> Expected Delivery Date: ${o.deliveryDate}</p>` : '';
+                let cancelReasonBox = o.status === 'Cancelled' && o.cancelReason ? `<div class="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex justify-between items-center"><div><strong>Cancellation Reason:</strong> ${o.cancelReason}</div><button onclick="dismissCancelledOrder('${o.id}')" class="bg-red-600 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-700 transition">OK</button></div>` : '';
+                
+                container.innerHTML += `
+                    <div class="bg-white rounded-xl shadow p-6 mb-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center">
+                                <span class="font-bold text-lg">${o.id}</span>
+                                ${delayBadge}
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${badge}">${o.status}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-1">District: <strong>${o.district || 'N/A'}</strong></p>
+                        <p class="text-sm text-gray-600 mb-2">Delivery Location: ${o.address} (${o.phone})</p>
+                        ${deliveryDateBox}
+                        <div class="border-t pt-2 space-y-1 mt-2">
+                            ${o.items.map(i => `<div class="flex justify-between text-sm text-gray-700"><span>${i.name} (Size: ${i.size}) (x${i.qty})</span><span>BDT ${i.price * i.qty}</span></div>`).join('')}
+                        </div>
+                        <div class="border-t mt-3 pt-2 flex justify-between text-sm text-gray-600">
+                            <span>Delivery Charge (${o.district || 'Standard'}):</span>
+                            <span>BDT ${o.deliveryCharge || 100}</span>
+                        </div>
+                        <div class="border-t mt-1 pt-2 flex justify-between font-bold">
+                            <span>Total (incl. Delivery):</span>
+                            <span class="text-pink-600">BDT ${o.total}</span>
+                        </div>
+                        ${cancelReasonBox}
+                    </div>
+                `;
+            });
+        }
+
+        window.renderAdminDashboard = function() {
+            document.getElementById('admin-total-products').innerText = products.length;
+            document.getElementById('admin-total-categories').innerText = categories.length;
+            document.getElementById('admin-total-orders').innerText = orders.length;
+            document.getElementById('admin-pending-orders').innerText = orders.filter(o => o.status === 'Pending').length;
+
+            const catTable = document.getElementById('admin-categories-table');
+            catTable.innerHTML = '';
+            if(categories.length === 0) {
+                catTable.innerHTML = `<tr><td colspan="2" class="p-4 text-center text-gray-500">No categories found.</td></tr>`;
+            } else {
+                categories.forEach(cat => {
+                    catTable.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold text-gray-800">${cat}</td>
+                            <td class="p-3">
+                                <button onclick="deleteCategory('${cat}')" class="bg-red-500 text-white px-2.5 py-1 rounded text-xs hover:bg-red-600">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            const distTable = document.getElementById('admin-districts-table');
+            if(distTable) {
+                distTable.innerHTML = '';
+                if(districts.length === 0) {
+                    distTable.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-gray-500">No districts configured.</td></tr>`;
+                } else {
+                    districts.forEach(d => {
+                        distTable.innerHTML += `
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-3 font-semibold text-gray-800">${d.name}</td>
+                                <td class="p-3 text-pink-600 font-bold">BDT ${d.charge}</td>
+                                <td class="p-3 space-x-2">
+                                    <button onclick="editDistrict('${d.name}', ${d.charge})" class="bg-blue-500 text-white px-2.5 py-1 rounded text-xs">Edit</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+            }
+
+            const ordersTable = document.getElementById('admin-orders-table');
+            ordersTable.innerHTML = '';
+            const activeOrders = orders.filter(o => o.status !== 'Cancelled' || !o.customerDismissed);
+            
+            if(activeOrders.length === 0) {
+                ordersTable.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">No orders found.</td></tr>`;
+            } else {
+                activeOrders.forEach(o => {
+                    let badge = o.status === 'Approved' ? 'bg-green-100 text-green-600' : o.status === 'Cancelled' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600';
+                    const currentDelay = o.delayStatus || 'On Time';
+                    ordersTable.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50 cursor-pointer" onclick="openOrderDetails('${o.id}')">
+                            <td class="p-3 font-medium text-pink-600">${o.id}</td>
+                            <td class="p-3">${o.customerName}<br><span class="text-xs text-gray-500">${o.phone}</span></td>
+                            <td class="p-3">${o.items.map(i => `${i.name} (Sz: ${i.size}) (x${i.qty})`).join(', ')}</td>
+                            <td class="p-3 font-semibold">BDT ${o.total}</td>
+                            <td class="p-3 space-y-1">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold ${badge} block w-fit">${o.status}</span>
+                                <select onchange="updateOrderDelay('${o.id}', this.value)" class="border rounded px-1.5 py-0.5 text-xs bg-white focus:outline-pink-500" onclick="event.stopPropagation()">
+                                    <option value="On Time" ${currentDelay === 'On Time' ? 'selected' : ''}>On Time</option>
+                                    <option value="1 Day Delayed" ${currentDelay === '1 Day Delayed' ? 'selected' : ''}>1 Day Delayed</option>
+                                    <option value="2+ Days Delayed" ${currentDelay === '2+ Days Delayed' ? 'selected' : ''}>2+ Days Delayed</option>
+                                    <option value="Stock Issue" ${currentDelay === 'Stock Issue' ? 'selected' : ''}>Stock Issue</option>
+                                </select>
+                            </td>
+                            <td class="p-3 space-x-1" onclick="event.stopPropagation()">
+                                <button onclick="promptOrderApproval('${o.id}')" class="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600" title="Approve">Approve</button>
+                                <button onclick="promptOrderCancellation('${o.id}')" class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600" title="Cancel">Cancel</button>
+                                <button onclick="completeAndRemoveOrder('${o.id}')" class="bg-slate-900 text-white px-2 py-1 rounded text-xs hover:bg-slate-800" title="Delivery Complete">Complete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            const productsTable = document.getElementById('admin-products-table');
+            productsTable.innerHTML = '';
+            products.forEach(p => {
+                productsTable.innerHTML += `
+                    <tr class="border-b">
+                        <td class="p-3"><img src="${p.image}" class="w-12 h-12 object-cover rounded" onerror="this.src='https://via.placeholder.com/100'"></td>
+                        <td class="p-3 font-medium">${p.name}</td>
+                        <td class="p-3">BDT ${p.price}</td>
+                        <td class="p-3">${p.category}</td>
+                        <td class="p-3 space-x-2">
+                            <button onclick="openEditProductModal(${p.id})" class="bg-blue-500 text-white px-2.5 py-1 rounded text-xs">Edit</button>
+                            <button onclick="deleteProduct(${p.id})" class="bg-red-500 text-white px-2.5 py-1 rounded text-xs">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        window.toggleCategorySection = function() {
+            isCategorySectionVisible = !isCategorySectionVisible;
+            const container = document.getElementById('admin-categories-container');
+            const icon = document.getElementById('toggle-cat-icon');
+            const text = document.getElementById('toggle-cat-text');
+            if(isCategorySectionVisible) {
+                container.classList.remove('hidden');
+                icon.className = "fa-solid fa-eye-slash";
+                text.innerText = "Hide Category";
+            } else {
+                container.classList.add('hidden');
+                icon.className = "fa-solid fa-eye";
+                text.innerText = "Manage Category";
+            }
+        }
+
+        window.toggleDistrictSection = function() {
+            isDistrictSectionVisible = !isDistrictSectionVisible;
+            const container = document.getElementById('admin-districts-container');
+            const icon = document.getElementById('toggle-dist-icon');
+            const text = document.getElementById('toggle-dist-text');
+            if(isDistrictSectionVisible) {
+                container.classList.remove('hidden');
+                icon.className = "fa-solid fa-eye-slash";
+                text.innerText = "Hide District";
+            } else {
+                container.classList.add('hidden');
+                icon.className = "fa-solid fa-eye";
+                text.innerText = "Manage District";
+            }
+        }
+
+        window.openAddCategoryModal = function() {
+            document.getElementById('cat-name-input').value = '';
+            document.getElementById('add-category-modal').classList.remove('hidden');
+        }
+        window.closeAddCategoryModal = function() {
+            document.getElementById('add-category-modal').classList.add('hidden');
+        }
+
+        window.openAddDistrictModal = function() {
+            document.getElementById('dist-name-input').value = '';
+            document.getElementById('dist-charge-input').value = '';
+            document.getElementById('add-district-modal').classList.remove('hidden');
+        }
+        window.closeAddDistrictModal = function() {
+            document.getElementById('add-district-modal').classList.add('hidden');
+        }
+
+        window.editDistrict = function(name, charge) {
+            document.getElementById('dist-name-input').value = name;
+            document.getElementById('dist-charge-input').value = charge;
+            document.getElementById('add-district-modal').classList.remove('hidden');
+        }
+
+        window.handleSaveDistrict = async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('dist-name-input').value.trim();
+            const charge = parseFloat(document.getElementById('dist-charge-input').value);
+            if(!name || isNaN(charge)) return;
+
+            const existingIndex = districts.findIndex(d => d.name.toLowerCase() === name.toLowerCase());
+            if(existingIndex !== -1) {
+                districts[existingIndex].charge = charge;
+            } else {
+                districts.push({ name, charge });
+            }
+
+            if(user) {
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'districts', name), { name, charge });
+                } catch(err) {
+                    console.warn("Firestore district save warning:", err);
+                }
+            }
+            localStorage.setItem('fa_districts', JSON.stringify(districts));
+            closeAddDistrictModal();
+            renderAdminDashboard();
+            showToast("District charge saved successfully!");
+        }
+
+        window.handleSaveCategory = async function(e) {
+            e.preventDefault();
+            const catName = document.getElementById('cat-name-input').value.trim();
+            if(!catName) return;
+
+            if(categories.includes(catName)) {
+                showToast("This category already exists!");
+                return;
+            }
+
+            categories.push(catName);
+            if(user) {
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'categories', catName), { name: catName });
+                } catch(err) {
+                    console.warn("Firestore category save warning:", err);
+                }
+            }
+            localStorage.setItem('fa_categories', JSON.stringify(categories));
+            closeAddCategoryModal();
+            renderAdminDashboard();
+            renderCategoryPills();
+            showToast("Category added successfully!");
+        }
+
+        window.deleteCategory = async function(catName) {
+            if(confirm(`Are you sure you want to delete category "${catName}"?`)) {
+                categories = categories.filter(c => c !== catName);
+                if(user) {
+                    try {
+                        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'categories', catName));
+                    } catch(err) {
+                        console.warn("Firestore category delete warning:", err);
+                    }
+                }
+                localStorage.setItem('fa_categories', JSON.stringify(categories));
+                renderAdminDashboard();
+                renderCategoryPills();
+                showToast("Category deleted successfully!");
+            }
+        }
+
+        window.openOrderDetails = function(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if(!order) return;
+            document.getElementById('order-details-content').innerHTML = `
+                <div class="bg-gray-50 p-4 rounded-xl space-y-2">
+                    <p><strong>Order ID:</strong> <span class="text-pink-600">${order.id}</span></p>
+                    <p><strong>Date:</strong> ${order.date}</p>
+                    <p><strong>Customer Name:</strong> ${order.customerName}</p>
+                    <p><strong>Phone Number:</strong> ${order.phone}</p>
+                    <p><strong>Email:</strong> ${order.userEmail}</p>
+                    <p><strong>District:</strong> ${order.district || 'N/A'}</p>
+                    <p><strong>Status:</strong> <span class="font-semibold ${order.status === 'Cancelled' ? 'text-red-600' : 'text-green-600'}">${order.status}</span></p>
+                    ${order.deliveryDate ? `<p><strong>Expected Delivery Date:</strong> <span class="text-green-600 font-semibold">${order.deliveryDate}</span></p>` : ''}
+                    ${order.cancelReason ? `<p><strong>Cancel Reason:</strong> <span class="text-red-500">${order.cancelReason}</span></p>` : ''}
+                    <p><strong>Delay Status:</strong> <span class="text-red-600 font-semibold">${order.delayStatus || 'On Time'}</span></p>
+                    <p><strong>Delivery Location:</strong> <span class="text-gray-900 font-semibold">${order.address}</span></p>
+                </div>
+            `;
+            document.getElementById('order-details-modal').classList.remove('hidden');
+        }
+        window.closeOrderDetailsModal = function() {
+            document.getElementById('order-details-modal').classList.add('hidden');
+        }
+
+        window.promptOrderApproval = function(id) {
+            document.getElementById('approve-target-order-id').value = id;
+            document.getElementById('approve-delivery-date').value = '';
+            document.getElementById('approve-date-modal').classList.remove('hidden');
+        }
+        window.closeApproveDateModal = function() {
+            document.getElementById('approve-date-modal').classList.add('hidden');
+        }
+        window.confirmOrderApproval = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('approve-target-order-id').value;
+            const deliveryDate = document.getElementById('approve-delivery-date').value;
+            const order = orders.find(o => o.id === id);
+
+            if(order) {
+                order.status = 'Approved';
+                order.deliveryDate = deliveryDate;
+                if(user) {
+                    try {
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', order.id), order);
+                    } catch(err) {
+                        console.warn("Firestore approval update warning:", err);
+                    }
+                }
+                localStorage.setItem('fa_orders', JSON.stringify(orders));
+                closeApproveDateModal();
+                renderAdminDashboard();
+                showToast("Order approved with delivery date!");
+            }
+        }
+
+        window.promptOrderCancellation = function(id) {
+            document.getElementById('cancel-target-order-id').value = id;
+            document.getElementById('cancel-reason-input').value = '';
+            document.getElementById('cancel-reason-modal').classList.remove('hidden');
+        }
+
+        window.closeCancelReasonModal = function() {
+            document.getElementById('cancel-reason-modal').classList.add('hidden');
+        }
+
+        window.confirmOrderCancellation = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('cancel-target-order-id').value;
+            const reason = document.getElementById('cancel-reason-input').value.trim();
+            const order = orders.find(o => o.id === id);
+
+            if(order) {
+                order.status = 'Cancelled';
+                order.cancelReason = reason;
+                if(user) {
+                    try {
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', order.id), order);
+                    } catch(err) {
+                        console.warn("Firestore cancellation update warning:", err);
+                    }
+                }
+                localStorage.setItem('fa_orders', JSON.stringify(orders));
+                closeCancelReasonModal();
+                renderAdminDashboard();
+                showToast(`Order cancelled with reason!`);
+            }
+        }
+
+        window.updateOrderDelay = async function(id, delayStatus) {
+            const order = orders.find(o => o.id === id);
+            if(order) {
+                order.delayStatus = delayStatus;
+                if(user) {
+                    try {
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', order.id), order);
+                    } catch(err) {
+                        console.warn("Firestore delay status update warning:", err);
+                    }
+                }
+                localStorage.setItem('fa_orders', JSON.stringify(orders));
+                renderAdminDashboard();
+                showToast(`Delay status updated to: ${delayStatus}`);
+            }
+        }
+
+        window.completeAndRemoveOrder = async function(id) {
+            orders = orders.filter(o => o.id !== id);
+            if(user) {
+                try {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'orders', id));
+                } catch(err) {
+                    console.warn("Firestore order delete warning:", err);
+                }
+            }
+            localStorage.setItem('fa_orders', JSON.stringify(orders));
+            renderAdminDashboard();
+            showToast("Delivery completed! Order removed from management list.");
+        }
+
+        function populateCategoryDropdown(selectedVal = '') {
+            const selectEl = document.getElementById('p-category');
+            selectEl.innerHTML = '';
+            if(categories.length === 0) {
+                selectEl.innerHTML = '<option value="">No categories available</option>';
+                return;
+            }
+            categories.forEach(cat => {
+                const isSel = (cat.toLowerCase() === selectedVal.toLowerCase()) ? 'selected' : '';
+                selectEl.innerHTML += `<option value="${cat}" ${isSel}>${cat}</option>`;
+            });
+        }
+
+        window.openAddProductModal = function() {
+            document.getElementById('product-modal-title').innerText = "Add New Product";
+            document.getElementById('product-form').reset();
+            document.getElementById('edit-product-id').value = '';
+            populateCategoryDropdown();
+            document.getElementById('add-product-modal').classList.remove('hidden');
+        }
+        window.openEditProductModal = function(id) {
+            const p = products.find(prod => prod.id === id);
+            if(!p) return;
+            document.getElementById('product-modal-title').innerText = "Edit Product";
+            document.getElementById('edit-product-id').value = p.id;
+            document.getElementById('p-name').value = p.name;
+            document.getElementById('p-price').value = p.price;
+            populateCategoryDropdown(p.category);
+            document.getElementById('p-sizes').value = p.sizes ? p.sizes.join(', ') : 'S, M, L, XL';
+            document.getElementById('p-file').value = '';
+            document.getElementById('p-extra-files').value = '';
+            document.getElementById('p-desc').value = p.desc;
+            document.getElementById('add-product-modal').classList.remove('hidden');
+        }
+        window.closeAddProductModal = function() {
+            document.getElementById('add-product-modal').classList.add('hidden');
+        }
+
+        window.handleSaveProduct = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-product-id').value;
+            const name = document.getElementById('p-name').value;
+            const price = parseFloat(document.getElementById('p-price').value);
+            const category = document.getElementById('p-category').value;
+            const sizesInput = document.getElementById('p-sizes').value;
+            const sizes = sizesInput ? sizesInput.split(',').map(s => s.trim()).filter(Boolean) : ["S", "M", "L", "XL"];
+            
+            const mainFileInput = document.getElementById('p-file');
+            const extraFilesInput = document.getElementById('p-extra-files');
+            const desc = document.getElementById('p-desc').value;
+
+            const readFileAsDataURL = (file) => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                });
+            };
+
+            let mainImage = "https://via.placeholder.com/300";
+            if(id) {
+                const existingProd = products.find(prod => prod.id == id);
+                if(existingProd) mainImage = existingProd.image;
+            }
+
+            if (mainFileInput.files && mainFileInput.files[0]) {
+                mainImage = await readFileAsDataURL(mainFileInput.files[0]);
+            }
+
+            let extraImages = [];
+            if(id) {
+                const existingProd = products.find(prod => prod.id == id);
+                if(existingProd && existingProd.extras) extraImages = [...existingProd.extras];
+            }
+
+            if (extraFilesInput.files && extraFilesInput.files.length > 0) {
+                for (let i = 0; i < extraFilesInput.files.length; i++) {
+                    const base64Str = await readFileAsDataURL(extraFilesInput.files[i]);
+                    extraImages.push(base64Str);
+                }
+            }
+
+            const prodId = id ? Number(id) : Date.now();
+            const productObj = { id: prodId, name, price, category, sizes, image: mainImage, extras: extraImages, desc };
+
+            if(user) {
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', String(prodId)), productObj);
+                } catch(err) {
+                    console.warn("Firestore product save warning:", err);
+                }
+            }
+
+            if(id) {
+                const index = products.findIndex(prod => prod.id == id);
+                if(index !== -1) products[index] = productObj;
+                showToast("Product updated successfully!");
+            } else {
+                products.push(productObj);
+                showToast("New product uploaded successfully!");
+            }
+            localStorage.setItem('fa_products', JSON.stringify(products));
+            closeAddProductModal();
+            renderAdminDashboard();
+            renderCategoryPills();
+            renderProducts(products);
+        }
+
+        window.deleteProduct = async function(id) {
+            if(confirm("Are you sure?")) {
+                if(user) {
+                    try {
+                        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', String(id)));
+                    } catch(err) {
+                        console.warn("Firestore product delete warning:", err);
+                    }
+                }
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('fa_products', JSON.stringify(products));
+                renderAdminDashboard();
+                renderProducts(products);
+                showToast("Product deleted!");
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('flex');
+            t.classList.remove('hidden');
+            setTimeout(() => {
+                t.classList.add('hidden');
+                t.classList.remove('flex');
+            }, 3000);
+        }
+
+        updateAuthNav();
+        renderCategoryPills();
+        renderProducts(products);
+    </script>
+</body>
+</html>
