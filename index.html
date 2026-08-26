@@ -276,7 +276,6 @@
 
     </main>
 
-    <!-- Footer with Bold Brand Name & Facebook Link -->
     <footer class="bg-white border-t border-gray-200 py-6 mt-auto shadow-inner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-sm text-gray-600 gap-4">
             <div>
@@ -380,7 +379,7 @@
             <div class="space-y-2">
                 <button onclick="openChangeNameModal()" class="w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl font-medium hover:bg-gray-200 transition text-sm">Change Name</button>
                 <button onclick="openChangePasswordModal()" class="w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl font-medium hover:bg-gray-200 transition text-sm">Change Password</button>
-                <button onclick="closeProfileModal()" class="w-full bg-pink-600 text-white py-2.5 rounded-lg font-medium hover:bg-pink-700 transition">Close</button>
+                <button onclick="closeProfileModal()" class="w-full bg-pink-600 text-white py-2.5 rounded-xl font-medium hover:bg-pink-700 transition">Close</button>
             </div>
         </div>
     </div>
@@ -557,6 +556,7 @@
         </div>
     </div>
 
+    <!-- Notification Toast -->
     <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-3 rounded-lg shadow-lg hidden transition-opacity duration-300 z-50"></div>
 
     <script type="module">
@@ -737,6 +737,7 @@
                 console.warn("Districts sync fallback:", error);
             });
 
+            // FIXED: Global public product collection sync across all users and devices
             const productsRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
             onSnapshot(productsRef, (snapshot) => {
                 if(snapshot.empty) {
@@ -773,6 +774,9 @@
                     localStorage.setItem('fa_products', JSON.stringify(products));
                     renderCategoryPills();
                     renderProducts(products);
+                    if(!document.getElementById('tab-admin').classList.contains('hidden')) {
+                        renderAdminDashboard();
+                    }
                 }
             }, (error) => {
                 console.warn("Products sync fallback:", error);
