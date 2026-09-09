@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "Customer and admin user accounts",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user identifier" },
+        "email": { "type": "string", "description": "User email address" },
+        "name": { "type": "string", "description": "User full name" },
+        "phone": { "type": "string", "description": "Contact phone number" },
+        "password": { "type": "string", "description": "Account password" },
+        "role": { "type": "string", "enum": ["customer", "admin"], "description": "Access role" },
+        "createdAt": { "type": "string", "description": "Account creation timestamp" }
+      },
+      "required": ["uid", "email"]
+    },
+    "orders": {
+      "title": "Order",
+      "description": "Customer purchase orders",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Order unique ID" },
+        "orderNumber": { "type": "string", "description": "Readable order code like FA-12345" },
+        "customerName": { "type": "string", "description": "Customer full name" },
+        "customerPhone": { "type": "string", "description": "Customer contact phone" },
+        "customerAddress": { "type": "string", "description": "Delivery address" },
+        "districtId": { "type": "string", "description": "District code" },
+        "districtName": { "type": "string", "description": "District name" },
+        "deliveryCharge": { "type": "number", "description": "Delivery fee in BDT" },
+        "subtotal": { "type": "number", "description": "Items subtotal in BDT" },
+        "total": { "type": "number", "description": "Total amount in BDT" },
+        "paymentMethod": { "type": "string", "enum": ["cod", "bkash", "nagad"], "description": "Payment type" },
+        "paymentStatus": { "type": "string", "description": "Payment status" },
+        "status": { "type": "string", "enum": ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"], "description": "Order fulfillment status" },
+        "notes": { "type": "string", "description": "Customer order notes" },
+        "cancellationReason": { "type": "string", "description": "Reason if cancelled" },
+        "userUid": { "type": "string", "description": "Optional customer UID" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" }
+      },
+      "required": ["orderNumber", "customerName", "customerPhone", "customerAddress", "districtId", "total"]
+    },
+    "products": {
+      "title": "Product",
+      "description": "Catalog clothing items",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Product ID" },
+        "name": { "type": "string", "description": "Product title" },
+        "price": { "type": "number", "description": "Price in BDT" },
+        "categoryId": { "type": "string", "description": "Category ID" }
+      },
+      "required": ["id", "name", "price", "categoryId"]
+    },
+    "districts": {
+      "title": "District",
+      "description": "Bangladesh district delivery charges",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "District ID" },
+        "name": { "type": "string", "description": "District name" },
+        "charge": { "type": "number", "description": "Delivery fee" }
+      },
+      "required": ["id", "name", "charge"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "Registered customer profiles"
+    },
+    "/orders/{orderId}": {
+      "schema": "orders",
+      "description": "Customer orders collection"
+    },
+    "/products/{productId}": {
+      "schema": "products",
+      "description": "Catalog products"
+    },
+    "/districts/{districtId}": {
+      "schema": "districts",
+      "description": "Delivery rate configuration"
+    }
+  }
+}
