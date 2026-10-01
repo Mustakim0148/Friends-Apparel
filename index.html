@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function() {
+        try {
+          var rawFetch = window.fetch;
+          if (rawFetch) {
+            var activeFetch = typeof rawFetch.bind === 'function' ? rawFetch.bind(window) : rawFetch;
+            var descriptor = {
+              get: function() {
+                return activeFetch;
+              },
+              set: function(val) {
+                if (typeof val === 'function') {
+                  activeFetch = val;
+                }
+              },
+              configurable: true,
+              enumerable: true
+            };
+            try {
+              Object.defineProperty(window, 'fetch', descriptor);
+            } catch (e1) {}
+            try {
+              if (window.Window && window.Window.prototype) {
+                Object.defineProperty(window.Window.prototype, 'fetch', descriptor);
+              }
+            } catch (e2) {}
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friends Apparel | Exclusive Women's Clothing</title>
+    <meta name="theme-color" content="#881337" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Friends Apparel" />
+    <meta name="msapplication-TileColor" content="#881337" />
+    <meta name="msapplication-TileImage" content="/pwa-192x192.png" />
+    <!-- Web Favicon (Seamless solid black logo) -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!-- Shortcut App Icon -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="canonical" href="https://www.friendsapparel.shop/" />
+    <meta name="description" content="Exclusive women's clothing in Bangladesh. Shop exquisite Three-Piece, Kurtis, Dresses with nationwide delivery across all 64 districts." />
+    <meta property="og:title" content="Friends Apparel | Exclusive Women's Clothing" />
+    <meta property="og:description" content="Exclusive women's clothing in Bangladesh. Shop exquisite Three-Piece, Kurtis, Dresses with nationwide delivery across all 64 districts." />
+    <meta property="og:image" content="https://www.friendsapparel.shop/logo.png" />
+    <meta property="og:image:secure_url" content="https://www.friendsapparel.shop/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="600" />
+    <meta property="og:image:alt" content="Friends Apparel Logo" />
+    <meta property="og:url" content="https://www.friendsapparel.shop/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Friends Apparel" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Friends Apparel | Exclusive Women's Clothing" />
+    <meta name="twitter:description" content="Exclusive women's clothing in Bangladesh. Shop exquisite Three-Piece, Kurtis, Dresses with nationwide delivery across all 64 districts." />
+    <meta name="twitter:image" content="https://www.friendsapparel.shop/logo.png" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ClothingStore",
+          "@id": "https://www.friendsapparel.shop/#store",
+          "name": "Friends Apparel",
+          "url": "https://www.friendsapparel.shop",
+          "logo": "https://www.friendsapparel.shop/logo.png",
+          "image": "https://www.friendsapparel.shop/logo.png",
+          "description": "Exclusive women's clothing in Bangladesh. Shop exquisite Three-Piece, Kurtis, Dresses with nationwide delivery across all 64 districts.",
+          "priceRange": "BDT 990 - 2000",
+          "telephone": "+8801700000000",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "BD",
+            "addressRegion": "Dhaka"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.friendsapparel.shop/?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://www.friendsapparel.shop/#recent-products",
+          "name": "Recent Collection - Friends Apparel",
+          "description": "Recent collection of exclusive three-piece suits and salwar kameez sets in Bangladesh",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Product",
+                "name": "Friends Apparel Premium Emerald Green Floral 3-Piece Suit",
+                "image": "https://files.catbox.moe/gbiiun.jpg",
+                "url": "https://www.friendsapparel.shop/product/FA-59703",
+                "sku": "FA-59703",
+                "description": "Elegant emerald green 3-piece suit featuring beautiful floral prints, intricate neckline detailing, decorative borders, matching trousers, and a coordinated dupatta.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "990",
+                  "priceCurrency": "BDT",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": {
+                    "@id": "https://www.friendsapparel.shop/#store"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Product",
+                "name": "Friends Apparel Premium Aqua Blue Floral 3-Piece Suit",
+                "image": "https://files.catbox.moe/gcktbs.jpg",
+                "url": "https://www.friendsapparel.shop/product/FA-53702",
+                "sku": "FA-53702",
+                "description": "Elegant aqua blue 3-piece suit featuring delicate floral prints, a detailed neckline, decorative borders, matching trousers, and a coordinated dupatta.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "990",
+                  "priceCurrency": "BDT",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": {
+                    "@id": "https://www.friendsapparel.shop/#store"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "Product",
+                "name": "Friends Apparel Premium Lime Green Floral 3-Piece Suit",
+                "image": "https://files.catbox.moe/zp18w2.jpg",
+                "url": "https://www.friendsapparel.shop/product/FA-84174",
+                "sku": "FA-84174",
+                "description": "Elegant lime green 3-piece suit featuring vibrant floral prints, a detailed neckline, beautiful borders, matching trousers, and a coordinated dupatta.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "990",
+                  "priceCurrency": "BDT",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": {
+                    "@id": "https://www.friendsapparel.shop/#store"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "Product",
+                "name": "Soft Rose Pink Embroidered 3-Piece Salwar Kameez Set",
+                "image": "https://files.catbox.moe/53x0cs.jpg",
+                "url": "https://www.friendsapparel.shop/product/FA-69574",
+                "sku": "FA-69574",
+                "description": "Elegant 3-piece women's salwar kameez set in a soft rose pink shade, featuring intricate floral embroidery and decorative lace accents.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "2000",
+                  "priceCurrency": "BDT",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": {
+                    "@id": "https://www.friendsapparel.shop/#store"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "Product",
+                "name": "Premium Baby Pink Embroidered 3-Piece Suit",
+                "image": "https://files.catbox.moe/pysuj4.jpg",
+                "url": "https://www.friendsapparel.shop/product/FA-42985",
+                "sku": "FA-42985",
+                "description": "Elegant baby pink 3-piece suit featuring delicate embroidery, beautiful neckline detailing, matching trousers, and a soft printed dupatta.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "1490",
+                  "priceCurrency": "BDT",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": {
+                    "@id": "https://www.friendsapparel.shop/#store"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": {
+                "@type": "Product",
+                "name": "Premium Dusty Pink Embroidered 3-Piece Suit",
+                "image": "https://files.catbox.moe/87j89x.jpg",
+                "url": "https://www.friendsapparel.shop/product/FA-18661",
+                "sku": "FA-18661",
+                "description": "Elegant dusty pink 3-piece suit featuring intricate embroidery, detailed borders, matching trousers, and a beautiful matching dupatta.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "2000",
+                  "priceCurrency": "BDT",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": {
+                    "@id": "https://www.friendsapparel.shop/#store"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "item": {
+                "@type": "Product",
+                "name": "Premium Cream & Rust Floral 3-Piece Suit",
+                "image": "https://files.catbox.moe/ec29wd.jpg",
+                "url": "https://www.friendsapparel.shop/product/FA-28887",
+                "sku": "FA-28887",
+                "description": "Elegant cream 3-piece suit featuring delicate floral prints, beautiful neckline detailing, matching trousers, and a rich rust printed dupatta.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "1050",
+                  "priceCurrency": "BDT",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": {
+                    "@id": "https://www.friendsapparel.shop/#store"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "item": {
+                "@type": "Product",
+                "name": "Premium White & Brown Floral 3-Piece Suit",
+                "image": "https://files.catbox.moe/l5uiic.jpg",
+                "url": "https://www.friendsapparel.shop/product/FA-61064",
+                "sku": "FA-61064",
+                "description": "Elegant white 3-piece suit featuring delicate floral prints, beautiful neckline detailing, matching trousers, and a rich brown printed dupatta.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "1050",
+                  "priceCurrency": "BDT",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": {
+                    "@id": "https://www.friendsapparel.shop/#store"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-stone-50 text-stone-900 font-sans antialiased selection:bg-rose-100 selection:text-rose-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

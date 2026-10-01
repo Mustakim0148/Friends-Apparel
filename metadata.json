@@ -1,0 +1,6 @@
+{
+  "name": "Friends Apparel",
+  "description": "Exclusive women's clothing in Bangladesh. Shop exquisite Three-Piece, Kurtis, Dresses with nationwide delivery across all 64 districts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
