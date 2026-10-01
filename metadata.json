@@ -1,6 +1,0 @@
-{
-  "name": "Friends Apparel",
-  "description": "Exclusive women's clothing store featuring nationwide delivery across all 64 districts of Bangladesh with cash on delivery and full admin panel.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
